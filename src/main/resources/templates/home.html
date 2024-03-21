@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{components/head :: head('Home')}">
+</head>
+<body>
+<!-- Incluir el header -->
+<div th:replace="~{components/header :: header}"></div>
+
+<!-- Main content -->
+<main id="container">
+    <!-- Contenido principal -->
+    <div class="m-5">
+        <form th:action="@{/logout}" method="POST">
+            <button type="submit" class="btn btn-danger">Salir</button>
+        </form>
+    </div>
+</main>
+
+<!-- Incluir el footer -->
+<div th:replace="~{components/footer :: footer}"></div>
+
+<!-- Importar Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

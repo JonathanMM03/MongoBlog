@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registro</title>
-    <link rel="stylesheet" href="/static/css/loginStyle.css" >
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="/static/js/loginController.js"></script>
-    <link rel="icon" type="image/svg+xml" href="/img/blog_icon.svg">
+    <title>Login</title>
+    <meta name="author" content="Jonathan Moreno">
+    <meta name="github" content="JonathanMM03">
+    <link rel="icon" type="image/svg+xml" th:href="@{/img/blog_icon.svg}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}" >
 </head>
+
 <body>
 <main class="container" id="container">
     <div class="form-container sign-up-container">
@@ -26,18 +28,13 @@
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="/login" method="post">
+        <form th:action="@{/login}" method="POST">
             <h1>Iniciar sesión</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fa-solid fa-code"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            <div class="mt-3 mb-5">
+            <input type="text" placeholder="Email" name="email" required />
+            <input type="password" placeholder="Contraseña" name="password" required />
             </div>
-            <span>or use your account</span>
-            <input type="text" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+            <button type="submit">Sign In</button>
         </form>
     </div>
     <div class="overlay-container">

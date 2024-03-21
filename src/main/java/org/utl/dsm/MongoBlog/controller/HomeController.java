@@ -8,9 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class HomeController {
     @GetMapping("/login")
-    public String login(){return "login";}
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/home")
-    public String home(){return "home";}
+    public String home() {
+        return "home";
+    }
+
     @GetMapping("/")
     public String index() {
         return "home"; // Retorna la vista home.html para la ruta raíz
