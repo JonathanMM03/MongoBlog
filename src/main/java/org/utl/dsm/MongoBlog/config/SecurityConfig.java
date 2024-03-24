@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -44,14 +46,11 @@ public class SecurityConfig {
         http.formLogin(formLogin -> {
             formLogin.loginPage("/login").usernameParameter("email").permitAll();
         });
-        http.logout(logout -> {
-            logout.permitAll();
-        });
+        http.logout(LogoutConfigurer::permitAll);
         http.headers(headers -> {
-            headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.sameOrigin());
+            headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);
         });
         http.authenticationProvider(daoAuthenticationProvider());
         return http.build();
     }
-
 }

@@ -1,6 +1,7 @@
 package org.utl.dsm.MongoBlog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,8 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/all")
     @Operation(summary = "Obtener todos los usuarios")
@@ -39,8 +42,11 @@ public class UsuarioController {
     }
 
     @PostMapping("/")
-    @Operation(summary = "Crear un nuevo usuario")
     public Usuario createUser(@RequestBody Usuario user) {
+        // Encriptar la contraseña antes de guardarla
+        String contraseniaEncriptada = passwordEncoder.encode(user.getPassword());
+        user.setPassword(contraseniaEncriptada);
+
         return usuarioService.create(user);
     }
 
