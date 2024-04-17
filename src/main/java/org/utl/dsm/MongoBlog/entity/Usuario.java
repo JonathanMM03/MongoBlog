@@ -2,6 +2,7 @@ package org.utl.dsm.MongoBlog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,10 @@ public class Usuario implements UserDetails {
     private String password;
     @JsonIgnore
     private List<Publicacion> publicaciones = new ArrayList<>();
+    @NotBlank
+    private String fechaCreacion;
+    private String fechaModificacion;
+    private String estatus;
 
     public Usuario(Usuario usuario) {
         this.id = usuario.getId();
@@ -44,8 +49,12 @@ public class Usuario implements UserDetails {
         this.usuario = usuario.getUsuario();
         this.password = usuario.getPassword();
         this.publicaciones = usuario.getPublicaciones();
+        this.fechaCreacion = usuario.getFechaCreacion();
+        this.fechaModificacion = usuario.getFechaModificacion();
+        this.estatus = usuario.estatus;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<>(List.of(new SimpleGrantedAuthority("USUARIO")));
@@ -61,21 +70,25 @@ public class Usuario implements UserDetails {
         return this.email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

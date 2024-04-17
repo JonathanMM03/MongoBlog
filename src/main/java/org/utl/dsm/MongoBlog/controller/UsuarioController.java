@@ -10,6 +10,7 @@ import org.utl.dsm.MongoBlog.service.UsuarioService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -43,9 +44,13 @@ public class UsuarioController {
 
     @PostMapping("/")
     public Usuario createUser(@RequestBody Usuario user) {
+        System.out.println(user.toString());
         // Encriptar la contraseña antes de guardarla
-        String contraseniaEncriptada = passwordEncoder.encode(user.getPassword());
-        user.setPassword(contraseniaEncriptada);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setFechaCreacion(Instant.now().toString());
+        user.setEstatus("Activo");
+
+        System.out.println(user.toString());
 
         return usuarioService.create(user);
     }
@@ -53,12 +58,25 @@ public class UsuarioController {
     @PutMapping("/{email}")
     @Operation(summary = "Actualizar usuario por email")
     public Usuario updateUser(@PathVariable String email, @RequestBody Usuario userDetails) {
+        userDetails.setFechaModificacion(Instant.now().toString());
         return usuarioService.update(email, userDetails);
     }
 
     @DeleteMapping("/{email}")
     @Operation(summary = "Eliminar usuario por email")
     public void deleteUser(@PathVariable String email) {
-        usuarioService.delete(email);
+        Usuario usuario = usuarioService.getByEmail(email);
+        usuario.setFechaModificacion(Instant.now().toString());
+        usuario.setEstatus("Inactivo");
+        usuarioService.update(email, usuario);
+    }
+
+    @PutMapping("/activar/{email}")
+    @Operation(summary = "Eliminar usuario por email")
+    public void activateUser(@PathVariable String email) {
+        Usuario usuario = usuarioService.getByEmail(email);
+        usuario.setFechaModificacion(Instant.now().toString());
+        usuario.setEstatus("Activo");
+        usuarioService.update(email, usuario);
     }
 }

@@ -21,4 +21,6 @@ public class Publicacion {
     @NotNull
     private String contenido;
     private String fechaPublicacion;
+    private String fechaModificacion;
+    private String estatus;
 }

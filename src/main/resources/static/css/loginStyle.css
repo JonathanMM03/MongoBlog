@@ -80,6 +80,7 @@ form {
 	padding: 0 50px;
 	height: 100%;
 	text-align: center;
+	overflow-y: auto;
 }
 
 input {

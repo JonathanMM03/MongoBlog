@@ -1,5 +1,39 @@
-<header class="sticky-top bg-light">
+<!-- components/header.html -->
+<header class="sticky-top bg-light" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="container">
         <!-- Contenido del header -->
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <!-- Elemento "Home" fuera del navbar-toggler -->
+            <a class="navbar-brand" href="/home">
+                <img src="/img/blog_icon.svg" alt="Ícono de Salida" style="width: 20px; height: 20px; margin-right: 5px;">
+                Home
+            </a>
+
+            <!-- Botón de colapso para menú en pantallas pequeñas -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Contenido del menú de navegación -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <!-- Formulario de logout dentro de un elemento "nav-item" -->
+                        <form th:action="@{/logout}" method="POST">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-sign-out-alt"></i> Salir
+                            </button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <!-- Opción para mostrar estadísticas -->
+                        <button class="btn btn-primary" onclick="obtenerEstadisticas()">
+                            <i class="fas fa-chart-bar"></i> Mostrar Estadísticas
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </div>
 </header>

@@ -43,7 +43,7 @@ public class UsuarioService implements UserDetailsService {
 
     public Usuario create(Usuario usuario) {
         List<Usuario> usuarios = usuarioRepository.findAll();
-        usuario.setUsuario(Instant.parse(usuario.getFechaNacimiento() + "T00:00:00.000Z").toString());
+        //usuario.setUsuario(Instant.parse(usuario.getFechaNacimiento() + "T00:00:00.000Z").toString());
 
         // Verificar si existen usuarios en la base de datos
         boolean existenUsuarios = !usuarios.isEmpty();

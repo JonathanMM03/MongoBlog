@@ -1,18 +1,17 @@
 package org.utl.dsm.MongoBlog.config;
 
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.utl.dsm.MongoBlog.service.UsuarioService;
 
 @Configuration
@@ -40,12 +39,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorizeHttpRequests -> {
-            authorizeHttpRequests.requestMatchers("/css/**", "/img/**", "/js/**").permitAll();
-            authorizeHttpRequests.anyRequest().authenticated();
+            authorizeHttpRequests.requestMatchers("/css/**", "/img/**", "/js/**", "/usuario/**", "/login")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated();
         });
         http.formLogin(formLogin -> {
             formLogin.loginPage("/login").usernameParameter("email").permitAll();
-        });
+        }).csrf(AbstractHttpConfigurer::disable);
         http.logout(LogoutConfigurer::permitAll);
         http.headers(headers -> {
             headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);

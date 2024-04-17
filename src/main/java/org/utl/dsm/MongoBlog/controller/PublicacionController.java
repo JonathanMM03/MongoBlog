@@ -92,9 +92,7 @@ public class PublicacionController {
 
     @PostMapping("/{usuario}/postear")
     @Operation(summary = "Crear una nueva publicación para un usuario por email o nombre de usuario", description = "Este endpoint permite crear una nueva publicación para un usuario específico, identificado por su usuario.")
-    public ResponseEntity<?> crearPublicacion(@PathVariable String usuario,
-                                              @RequestParam String contenido,
-                                              @RequestParam List<Tags> tags) {
+    public ResponseEntity<?> crearPublicacion(@PathVariable String usuario,@RequestBody Publicacion publicacion) {
         // Buscar al usuario por su email o nombre de usuario
         Usuario user = usuarioRepository.findByUsuario(usuario);
 
@@ -102,19 +100,18 @@ public class PublicacionController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(String.format("""
-                    {"mensaje":"No se encontró ningún usuario con el email o nombre de usuario proporcionado: %s"}
-                    """, usuario));
+                {"mensaje":"No se encontró ningún usuario con el email o nombre de usuario proporcionado: %s"}
+                """, usuario));
         }
 
         // Obtener el último ID de la lista de publicaciones del usuario
         int lastId = user.getPublicaciones().isEmpty() ? 0 : user.getPublicaciones().get(user.getPublicaciones().size() - 1).getId();
 
-        // Crear una nueva publicación con el contenido y tags proporcionados
-        Publicacion publicacion = new Publicacion();
+        // Asignar el nuevo ID a la publicación
         publicacion.setId(lastId + 1);
-        publicacion.setContenido(contenido);
+        // Establecer la fecha de publicación
         publicacion.setFechaPublicacion(Instant.now().toString());
-        publicacion.setTags(tags); // Asignar los tags a la publicación
+        publicacion.setEstatus("Activo");
 
         // Agregar la nueva publicación a la lista de publicaciones del usuario
         user.getPublicaciones().add(publicacion);
