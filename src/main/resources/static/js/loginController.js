@@ -15,6 +15,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Asignar eventos a los botones
     signUpButton.onclick = showRegisterMenu;
     signInButton.onclick = showLoginMenu;
+
+    const emailInput = document.getElementById('email');
+        emailInput.addEventListener('input', function(event) {
+            const emailValue = event.target.value;
+            if (emailValue.trim() !== '') {
+                // Almacena el correo electrónico en sessionStorage
+                sessionStorage.setItem('usuario', emailValue);
+            }
+        });
+
 });
 
 /*document.addEventListener('DOMContentLoaded', function() {
@@ -54,65 +64,56 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const registerForm = document.getElementById('registerForm');
+        registerForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío del formulario por defecto
 
-    registerForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Evitar el envío del formulario por defecto
+            const nombre = document.getElementById('nombre').value;
+            const apellidos = document.getElementById('apellidos').value;
+            const fechaNacimientoInput = document.getElementById('fechaNacimiento').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-        // Recoger los valores del formulario
-        const nombre = document.getElementById('nombre').value;
-        const apellidos = document.getElementById('apellidos').value;
-        const fechaNacimientoInput = document.getElementById('fechaNacimiento').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+            const fechaNacimiento = formatDateToISODate(fechaNacimientoInput);
 
-        // Convertir la fecha de nacimiento a formato YYYY-mm-dd
-        const fechaNacimiento = formatDateToISODate(fechaNacimientoInput);
+            if (fechaNacimiento) {
+                const userData = {
+                    nombre: nombre,
+                    apellidos: apellidos,
+                    fechaNacimiento: fechaNacimiento,
+                    email: email,
+                    password: password
+                };
 
-        // Validar el formato de la fecha de nacimiento
-        if (fechaNacimiento) {
-            // Construir el objeto de datos en formato JSON
-            const userData = {
-                nombre: nombre,
-                apellidos: apellidos,
-                fechaNacimiento: fechaNacimiento,
-                email: email,
-                password: password
-            };
-
-            console.table(userData);
-            console.log(JSON.stringify(userData));
-
-            // Realizar la llamada AJAX al servidor para registrar el usuario
-            fetch("http://localhost:8081/usuario/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData) // Convertir objeto a JSON
-            })
-            .then(response => {
-                if (response.ok) {
-                    // El registro fue exitoso
-                    console.log(response);
-                    return response.json();
-                } else {
-                    // El registro falló, mostrar mensaje de error o tomar medidas apropiadas
-                    throw new Error('Error en el registro');
-                }
-            })
-            .then(data => {
-                // El usuario se registró correctamente
-                console.log('Usuario registrado:', data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Aquí puedes manejar el error del registro, como mostrar un mensaje de error al usuario
-            });
-        } else {
-            console.error('Formato de fecha incorrecto. Debe ser YYYY-mm-dd.');
-            // Aquí puedes mostrar un mensaje de error al usuario o tomar otras acciones apropiadas
-        }
-    });
+                fetch("http://localhost:8081/usuario/", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error en el registro');
+                    }
+                })
+                .then(data => {
+                    // Registro exitoso, almacenar datos adicionales en sessionStorage
+                    sessionStorage.setItem('emailLogin', email); // Guardar email como usuario de sesión
+                    sessionStorage.setItem('passwordLogin', password); // Guardar contraseña de sesión
+                    console.log('Usuario registrado:', data);
+                    window.location.replace('/home'); // Redirigir a la página de inicio después del registro
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Manejar errores de registro aquí
+                });
+            } else {
+                console.error('Formato de fecha incorrecto. Debe ser YYYY-mm-dd.');
+                // Manejar errores de formato de fecha aquí
+            }
+        });
 
     // Función para convertir la fecha a formato ISO 8601 (YYYY-mm-dd)
     function formatDateToISODate(dateString) {

@@ -12,7 +12,7 @@
             <!-- Botón de colapso para menú en pantallas pequeñas -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon" id="txtUsername"></span>
             </button>
 
             <!-- Contenido del menú de navegación -->
@@ -21,7 +21,7 @@
                     <li class="nav-item">
                         <!-- Formulario de logout dentro de un elemento "nav-item" -->
                         <form th:action="@{/logout}" method="POST">
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="btn btn-danger" onclick="limpiarSessionStorage()">
                                 <i class="fas fa-sign-out-alt"></i> Salir
                             </button>
                         </form>
@@ -30,6 +30,12 @@
                         <!-- Opción para mostrar estadísticas -->
                         <button class="btn btn-primary" onclick="obtenerEstadisticas()">
                             <i class="fas fa-chart-bar"></i> Mostrar Estadísticas
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <!-- Opción para mostrar estadísticas -->
+                        <button class="btn btn-primary" onclick="crearPublicacion()">
+                            <i class="fa-solid fa-share-nodes"></i> Publicar
                         </button>
                     </li>
                 </ul>

@@ -1,0 +1,30 @@
+/* Estilos para las tarjetas */
+.card {
+    width: 100%; /* Ancho completo */
+    margin-bottom: 20px; /* Espacio inferior entre tarjetas */
+    border: 1px solid #ccc; /* Borde delgado */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilos para las imágenes dentro de las tarjetas */
+.card-img-top {
+    width: 100%; /* Ancho completo */
+    height: auto; /* Altura automática para mantener la relación de aspecto */
+    object-fit: cover; /* Ajuste de la imagen para cubrir el contenedor */
+}
+
+/* Estilos para el contenido dentro de las tarjetas */
+.card-body {
+    padding: 15px; /* Espaciado interno */
+}
+
+/* Estilos para el título de la tarjeta */
+.card-title {
+    font-size: 18px; /* Tamaño del texto del título */
+    font-weight: bold; /* Texto en negrita */
+}
+
+/* Estilos para los botones dentro de las tarjetas */
+.card-body button {
+    margin-right: 10px; /* Margen derecho entre botones */
+}
